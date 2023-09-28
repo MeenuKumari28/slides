@@ -5,12 +5,17 @@ string subtitle:
 
 -- ftd.column:
 width: fill-container
+align-content: center
 
 -- ftd.text: $title-slide.title
-color: red
+color: $inherited.colors.text-strong
+role: $inherited.types.heading-large
+text-align: center
 
 -- ftd.text: $title-slide.subtitle
-color: red
+color: $inherited.colors.text-strong
+role: $inherited.types.heading-medium
+text-align: center
 
 -- end: ftd.column
 

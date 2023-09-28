@@ -6,7 +6,10 @@ string subtitle:
 -- ftd.column:
 width: fill-container
 
--- ftd.text: Hello
+-- ftd.text: $title-slide.title
+color: red
+
+-- ftd.text: $title-slide.subtitle
 color: red
 
 -- end: ftd.column

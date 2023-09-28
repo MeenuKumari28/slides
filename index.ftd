@@ -1,23 +1,122 @@
 
 -- component title-slide:
 caption title:
-string subtitle:
+optional string subtitle:
 
 -- ftd.column:
 width: fill-container
+height: fill-container
 align-content: center
+spacing.fixed.px: 24
 
 -- ftd.text: $title-slide.title
 color: $inherited.colors.text-strong
-role: $inherited.types.heading-large
+role: $inherited.types.heading-hero
 text-align: center
+style: semi-bold
 
 -- ftd.text: $title-slide.subtitle
+if: { title-slide.subtitle != NULL }
 color: $inherited.colors.text-strong
-role: $inherited.types.heading-medium
+role: $inherited.types.heading-large
 text-align: center
+style: medium
 
 -- end: ftd.column
 
 -- end: title-slide
 
+
+
+
+
+
+
+
+
+
+-- component title-and-body:
+caption title:
+body body:
+
+-- ftd.column:
+width: fill-container
+height: fill-container
+spacing.fixed.px: 32
+padding.px: 48
+
+-- ftd.text: $title-and-body.title
+color: $inherited.colors.text-strong
+role: $inherited.types.heading-hero
+style: semi-bold
+
+-- ftd.text:
+if: { title-and-body.body != NULL }
+color: $inherited.colors.text-strong
+role: $inherited.types.copy-large
+style: medium
+
+$title-and-body.body
+
+-- end: ftd.column
+
+-- end: title-and-body
+
+
+
+
+
+
+
+
+
+
+-- component title-and-2-columns:
+caption title:
+optional ftd.image-src image:
+optional body body:
+boolean left-body: false
+
+-- ftd.column:
+width: fill-container
+height: fill-container
+padding.px: 48
+spacing.fixed.px: 32
+
+-- ftd.text: $title-and-2-columns.title
+color: $inherited.colors.text-strong
+role: $inherited.types.heading-hero
+style: semi-bold
+
+-- ftd.row:
+width: fill-container
+spacing.fixed.px: 24
+
+-- ftd.column:
+width.fixed.percent: 50
+
+-- ftd.image:
+src: $title-and-2-columns.image
+width: fill-container
+
+-- end: ftd.column
+
+-- ftd.column:
+width.fixed.percent: 50
+spacing.fixed.px: 24
+
+-- ftd.text: 
+if: { title-and-2-columns.body != NULL }
+color: $inherited.colors.text-strong
+role: $inherited.types.copy-large
+style: medium
+
+$title-and-2-columns.body
+
+-- end: ftd.column
+
+-- end: ftd.row
+
+-- end: ftd.column
+
+-- end: title-and-2-columns

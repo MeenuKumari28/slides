@@ -1,13 +1,167 @@
+-- integer $active-slide: 1
+
+-- site-doc.doc-home: fastn package: Slides
+license-url: https://github.com/gsalunke/slides/blob/main/LICENSE
+current-package: gsalunke.github.io/slides
+show-tabs: false
+site-title: Slides
+github-url: https://github.com/gsalunke/slides
+
+-- site-doc.output:
+colors: $ftd.default-colors
+
+-- slide.presentation:
+$current-slide: $active-slide
+max: 12
+
+-- title-slide: Medium font title of presentation
+subtitle: Medium font sub-title
+$current-slide: $active-slide
+index: 1
+reset: $active-slide
+bg-img: $assets.files.assets.image-placeholder.png
+
+-- title-slide: Medium font title of presentation
+$current-slide: $active-slide
+index: 2
+reset: $active-slide
+
+-- title-and-body: Slide title with medium font
+$current-slide: $active-slide
+index: 3
+reset: $active-slide
+
+Medium font size of body content
+1. Lorem ipsum dolor sit amet, consectetur adipiscing elit
+2. Lorem ipsum dolor sit amet, consectetur adipiscing elit
+3. Lorem ipsum dolor sit amet, consectetur adipiscing elit
+
+-- title-and-2-columns: Medium title of 2 columns slide
+image: $assets.files.assets.image-placeholder.png
+$current-slide: $active-slide
+index: 4
+reset: $active-slide
+
+Medium size font body here...
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+
+-- title-and-2-columns: Medium title of 2 columns slide
+image: $assets.files.assets.image-placeholder.png
+$current-slide: $active-slide
+index: 5
+reset: $active-slide
+
+-- title-and-2-columns: Medium title of 2 columns slide
+image: $assets.files.assets.image-placeholder.png
+left-body: true
+$current-slide: $active-slide
+index: 6
+reset: $active-slide
+
+Medium size font body here...
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+
+-- section-title-and-description: Medium font section title
+subtitle: Medium font sub title here
+$current-slide: $active-slide
+index: 7
+reset: $active-slide
+
+Medium size font body here...
+
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+
+-- image-title-body: This is image with title here
+subtitle: I am subtitle here
+image: $assets.files.assets.image-placeholder.png
+$current-slide: $active-slide
+index: 8
+reset: $active-slide
+
+Medium size font body here...
+
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit
+
+-- title-with-image: This is image with title here
+image: $assets.files.assets.image-placeholder.png
+$current-slide: $active-slide
+index: 9
+reset: $active-slide
+
+-- title-slide: Slide Number ten title
+subtitle: Slide Number ten sub-title
+$current-slide: $active-slide
+index: 10
+reset: $active-slide
+
+-- title-slide: Slide Number ten title
+subtitle: Slide Number ten sub-title
+$current-slide: $active-slide
+index: 11
+reset: $active-slide
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit
+amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur
+adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit
+
+-- title-slide: Thank You!!
+$current-slide: $active-slide
+index: 12
+reset: $active-slide
+
+-- end: slide.presentation
+
+-- end: site-doc.output
+
+-- end: site-doc.doc-home
+
+
+
+
+
+
+
+
+
+
 
 -- component title-slide:
 caption title:
 optional string subtitle:
+optional body body:
+optional integer index:
+optional integer reset:
+children slides:
+integer $current-slide:
+integer max: 12
+integer min: 1
+boolean $mouse-in-right: false
+optional ftd.background-image bg-img:
 
 -- ftd.column:
+if: { title-slide.index == title-slide.reset }
+background.image if { title-slide.bg-img != NULL }: $title-slide.bg-img
 width: fill-container
 height: fill-container
+min-height.fixed.px: 400
 align-content: center
+$on-click$: $increment-and-clamp($a = $title-slide.current-slide, by = 1, min = $title-slide.min, max = $title-slide.max)
+$on-mouse-enter$: $ftd.set-bool($a = $title-slide.mouse-in-right, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $title-slide.mouse-in-right, v = false)
 spacing.fixed.px: 24
+padding.px: 48
 
 -- ftd.text: $title-slide.title
 color: $inherited.colors.text-strong
@@ -21,6 +175,14 @@ color: $inherited.colors.text-strong
 role: $inherited.types.heading-large
 text-align: center
 style: medium
+
+-- ftd.text:
+if: { title-slide.body != NULL }
+color: $inherited.colors.text-strong
+role: $inherited.types.copy-large
+text-align: center
+
+$title-slide.body
 
 -- end: ftd.column
 
@@ -38,10 +200,24 @@ style: medium
 -- component title-and-body:
 caption title:
 body body:
+optional integer index:
+optional integer reset:
+children slides:
+integer $current-slide:
+integer max: 12
+integer min: 1
+boolean $mouse-in-right: false
+optional ftd.background-image bg-img:
 
 -- ftd.column:
+if: { title-and-body.index == title-and-body.reset }
+background.image if { title-and-body.bg-img != NULL }: $title-and-body.bg-img
 width: fill-container
 height: fill-container
+min-height.fixed.px: 400
+$on-click$: $increment-and-clamp($a = $title-and-body.current-slide, by = 1, min = $title-and-body.min, max = $title-and-body.max)
+$on-mouse-enter$: $ftd.set-bool($a = $title-and-body.mouse-in-right, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $title-and-body.mouse-in-right, v = false)
 spacing.fixed.px: 32
 padding.px: 48
 
@@ -76,10 +252,24 @@ caption title:
 optional ftd.image-src image:
 optional body body:
 boolean left-body: false
+optional integer index:
+optional integer reset:
+children slides:
+integer $current-slide:
+integer max: 12
+integer min: 1
+boolean $mouse-in-right: false
+optional ftd.background-image bg-img:
 
 -- ftd.column:
+if: { title-and-2-columns.index == title-and-2-columns.reset }
+background.image if { title-and-2-columns.bg-img != NULL }: $title-and-2-columns.bg-img
 width: fill-container
 height: fill-container
+min-height.fixed.px: 400
+$on-click$: $increment-and-clamp($a = $title-and-2-columns.current-slide, by = 1, min = $title-and-2-columns.min, max = $title-and-2-columns.max)
+$on-mouse-enter$: $ftd.set-bool($a = $title-and-2-columns.mouse-in-right, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $title-and-2-columns.mouse-in-right, v = false)
 padding.px: 48
 spacing.fixed.px: 32
 
@@ -89,6 +279,7 @@ role: $inherited.types.heading-hero
 style: semi-bold
 
 -- ftd.row:
+if: { !title-and-2-columns.left-body }
 width: fill-container
 spacing.fixed.px: 24
 
@@ -117,6 +308,251 @@ $title-and-2-columns.body
 
 -- end: ftd.row
 
+-- ftd.row:
+if: { title-and-2-columns.left-body }
+width: fill-container
+spacing.fixed.px: 24
+
+-- ftd.column:
+width.fixed.percent: 50
+spacing.fixed.px: 24
+
+-- ftd.text: 
+if: { title-and-2-columns.body != NULL }
+color: $inherited.colors.text-strong
+role: $inherited.types.copy-large
+style: medium
+
+$title-and-2-columns.body
+
+-- end: ftd.column
+
+-- ftd.column:
+width.fixed.percent: 50
+
+-- ftd.image:
+src: $title-and-2-columns.image
+width: fill-container
+
+-- end: ftd.column
+
+-- end: ftd.row
+
 -- end: ftd.column
 
 -- end: title-and-2-columns
+
+
+
+
+
+
+
+
+
+
+-- component section-title-and-description:
+caption title:
+string subtitle:
+body body:
+optional integer index:
+optional integer reset:
+children slides:
+integer $current-slide:
+integer max: 12
+integer min: 1
+boolean $mouse-in-right: false
+optional ftd.background-image bg-img:
+
+-- ftd.row:
+if: { section-title-and-description.index == section-title-and-description.reset }
+background.image if { section-title-and-description.bg-img != NULL }: $section-title-and-description.bg-img
+width: fill-container
+height: fill-container
+min-height.fixed.px: 400
+align-content: center
+$on-click$: $increment-and-clamp($a = $section-title-and-description.current-slide, by = 1, min = $section-title-and-description.min, max = $section-title-and-description.max)
+$on-mouse-enter$: $ftd.set-bool($a = $section-title-and-description.mouse-in-right, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $section-title-and-description.mouse-in-right, v = false)
+spacing.fixed.px: 24
+padding.px: 48
+
+-- ftd.column:
+spacing.fixed.px: 32
+width.fixed.percent: 50
+align-content: center
+
+-- ftd.text: $section-title-and-description.title
+color: $inherited.colors.text-strong
+role: $inherited.types.heading-hero
+style: semi-bold
+
+-- ftd.text: $section-title-and-description.subtitle
+color: $inherited.colors.text-strong
+role: $inherited.types.heading-large
+style: medium
+
+-- end: ftd.column
+
+-- ftd.text:
+color: $inherited.colors.text-strong
+role: $inherited.types.copy-large
+
+$section-title-and-description.body
+
+-- end: ftd.row
+
+-- end: section-title-and-description
+
+
+
+
+
+
+
+
+
+
+-- component image-title-body:
+optional caption title:
+ftd.image-src image:
+optional string subtitle:
+optional body body:
+optional integer index:
+optional integer reset:
+children slides:
+integer $current-slide:
+integer max: 12
+integer min: 1
+boolean $mouse-in-right: false
+optional ftd.background-image bg-img:
+
+-- ftd.row:
+if: { image-title-body.index == image-title-body.reset }
+background.image if { image-title-body.bg-img != NULL }: $image-title-body.bg-img
+width: fill-container
+height: fill-container
+min-height.fixed.px: 400
+$on-click$: $increment-and-clamp($a = $image-title-body.current-slide, by = 1, min = $image-title-body.min, max = $image-title-body.max)
+$on-mouse-enter$: $ftd.set-bool($a = $image-title-body.mouse-in-right, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $image-title-body.mouse-in-right, v = false)
+padding.px: 48
+spacing.fixed.px: 48
+
+-- ftd.column:
+width.fixed.percent: 50
+spacing.fixed.px: 24
+
+-- ftd.text: $image-title-body.title
+if: { image-title-body.title != NULL }
+role: $inherited.types.heading-hero
+color: $inherited.colors.text-strong
+
+-- ftd.image:
+src: $image-title-body.image
+width: fill-container
+height.fixed.px: 450
+fit: contain
+
+-- end: ftd.column
+
+-- ftd.column:
+width.fixed.percent: 50
+spacing.fixed.px: 24
+align-self: center
+
+-- ftd.text: $image-title-body.subtitle
+if: { image-title-body.subtitle != NULL }
+role: $inherited.types.heading-large
+color: $inherited.colors.text-strong
+
+-- ftd.text:
+if: { image-title-body.body != NULL }
+role: $inherited.types.copy-large
+color: $inherited.colors.text-strong
+
+$image-title-body.body
+
+-- end: ftd.column
+
+-- end: ftd.row
+
+-- end: image-title-body
+
+
+
+
+
+
+
+
+
+
+-- component title-with-image:
+caption title:
+ftd.image-src image:
+optional integer index:
+optional integer reset:
+children slides:
+integer $current-slide:
+integer max: 12
+integer min: 1
+boolean $mouse-in-right: false
+optional ftd.background-image bg-img:
+
+
+-- ftd.column:
+if: { title-with-image.index == title-with-image.reset }
+background.image if { title-with-image.bg-img != NULL }: $title-with-image.bg-img
+width: fill-container
+height: fill-container
+min-height.fixed.px: 400
+align-content: center
+$on-click$: $increment-and-clamp($a = $title-with-image.current-slide, by = 1, min = $title-with-image.min, max = $title-with-image.max)
+$on-mouse-enter$: $ftd.set-bool($a = $title-with-image.mouse-in-right, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $title-with-image.mouse-in-right, v = false)
+padding.px: 48
+spacing.fixed.px: 24
+
+-- ftd.text: $title-with-image.title
+if: { title-with-image.title != NULL }
+role: $inherited.types.heading-hero
+color: $inherited.colors.text-strong
+
+-- ftd.image:
+src: $title-with-image.image
+height.fixed.px: 450
+width.fixed.px: 850
+
+-- end: ftd.column
+
+-- end: title-with-image
+
+
+
+
+
+
+
+
+-- void increment-and-clamp(a,by,min,max):
+integer $a:
+integer by: 1
+integer min: 0
+integer max: 12
+
+
+a = (((a - min) + by) % ((max+1)- min)) + min
+
+
+
+
+
+-- void decrement-and-clamp(a,by,min,max):
+integer $a:
+integer by: 1
+integer min: 0
+integer max: 12
+
+
+a = (((a - min) - by) % ((max+1)- min)) + min

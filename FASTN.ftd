@@ -7,11 +7,9 @@ favicon: /-/meenukumari28.github.io/slides/favicon.ico
 -- fastn.dependency: fastn-community.github.io/footer
 -- fastn.dependency: fastn-community.github.io/inter-typography
 -- fastn.dependency: fastn-community.github.io/dark-flame-cs
--- fastn.dependency: gsalunke.github.io/slides
 
 -- fastn.auto-import: meenukumari28.github.io/slides/FASTN/ds
 -- fastn.auto-import: meenukumari28.github.io/slides/assets
 -- fastn.auto-import: fastn-community.github.io/site-doc
--- fastn.auto-import: gsalunke.github.io/slides as slide
 
 

@@ -1,16 +1,17 @@
 -- integer $active-slide: 1
+-- boolean $show-full-screen: false
 
 -- site-doc.doc-home: fastn package: Slides
-license-url: https://github.com/gsalunke/slides/blob/main/LICENSE
-current-package: gsalunke.github.io/slides
+license-url: https://github.com/meenukumari28/slides/blob/main/LICENSE
+current-package: meenukumari28.github.io/slides
 show-tabs: false
 site-title: Slides
-github-url: https://github.com/gsalunke/slides
+github-url: https://github.com/meenukumari28/slides
 
 -- site-doc.output:
 colors: $ftd.default-colors
 
--- slide.presentation:
+-- presentation:
 $current-slide: $active-slide
 max: 12
 
@@ -121,12 +122,258 @@ $current-slide: $active-slide
 index: 12
 reset: $active-slide
 
--- end: slide.presentation
+-- end: presentation
 
 -- end: site-doc.output
 
 -- end: site-doc.doc-home
 
+
+
+
+
+
+
+
+
+
+-- component presentation:
+children wrap:
+integer $current-slide:
+integer max: 12
+integer min: 1
+boolean adjust-position: false
+boolean $mouse-in-left: false
+boolean $mouse-in-right: false
+boolean $mouse-in-full: false
+
+-- ftd.column:
+width: fill-container
+
+-- ftd.desktop:
+
+-- ftd.column:
+width: fill-container
+background.solid: $inherited.colors.background.step-1
+align-content: center
+height.fixed.percent: 100
+min-height.fixed.px: 400
+anchor if { $show-full-screen }: window
+left.px: 0
+top.px: 0
+z-index: 1
+$on-global-key[esc]$: $ftd.set-bool($a = $show-full-screen, v = false)
+
+
+-- ftd.row:
+width: fill-container
+height: fill-container
+align-content: center
+min-height.fixed.px: 400
+min-height.fixed.percent if { $show-full-screen }: 92
+
+-- ftd.column:
+if: { presentation.current-slide == presentation.min && presentation.current-slide != presentation.max }
+anchor: parent
+$on-global-key[left]$: $decrement-and-clamp($a = $presentation.current-slide, by = 1, min = $presentation.min, max = $presentation.max)
+$on-global-key[right]$: $increment-and-clamp($a = $presentation.current-slide, by = 1, min = $presentation.min, max = $presentation.max)
+
+-- end: ftd.column
+
+-- ftd.column:
+children: $presentation.wrap
+width: fill-container
+height: fill-container
+align-content: center
+align-self: center
+;;padding-horizontal.px: 12
+z-index: 0
+
+-- end: ftd.column
+
+-- end: ftd.row
+
+-- ftd.row:
+width: fill-container
+background.solid: $inherited.colors.background.step-2
+align-content: center
+padding-vertical.px: 12
+
+-- ftd.column:
+width: fill-container
+align-content: center
+
+-- ftd.row:
+
+-- ftd.image:
+if: { presentation.current-slide != presentation.min }
+src: $assets.files.assets.left.svg
+src if { presentation.mouse-in-left }: $assets.files.assets.left-active.svg
+$on-click$: $decrement-and-clamp($a = $presentation.current-slide, by = 1, min = $presentation.min, max = $presentation.max)
+align-self: center
+width.fixed.px: 24
+height.fixed.px: 24
+$on-mouse-enter$: $ftd.set-bool($a = $presentation.mouse-in-left, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $presentation.mouse-in-left, v = false)
+
+-- ftd.image:
+if: { presentation.current-slide == presentation.min }
+src: $assets.files.assets.left.svg
+align-self: center
+width.fixed.px: 24
+height.fixed.px: 24
+
+-- ftd.integer: $presentation.current-slide
+color: $inherited.colors.text-strong
+role: $inherited.types.button-small
+style: medium
+padding-horizontal.px: 16 
+
+-- ftd.image:
+if: { presentation.current-slide != presentation.max }
+src: $assets.files.assets.right.svg
+src if { presentation.mouse-in-right }: $assets.files.assets.right-active.svg
+$on-click$: $increment-and-clamp($a = $presentation.current-slide, by = 1, min = $presentation.min, max = $presentation.max)
+align-self: center
+border-radius.px: 100
+width.fixed.px: 24
+height.fixed.px: 24
+$on-mouse-enter$: $ftd.set-bool($a = $presentation.mouse-in-right, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $presentation.mouse-in-right, v = false)
+
+-- ftd.image:
+if: { presentation.current-slide == presentation.max }
+src: $assets.files.assets.right.svg
+align-self: center
+border-radius.px: 100
+width.fixed.px: 24
+height.fixed.px: 24
+
+-- end: ftd.row
+
+-- end: ftd.column
+
+-- ftd.column:
+
+-- ftd.image:
+src: $assets.files.assets.full-screen.svg
+src if { presentation.mouse-in-full } : $assets.files.assets.full-screen-active.svg
+$on-click$: $ftd.set-bool($a = $show-full-screen, v = true)
+$on-mouse-enter$: $ftd.set-bool($a = $presentation.mouse-in-full, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $presentation.mouse-in-full, v = false)
+cursor: pointer
+
+-- end: ftd.column
+
+-- end: ftd.row
+
+-- end: ftd.column
+
+-- end: ftd.desktop
+
+-- ftd.mobile:
+
+-- ftd.column:
+width: fill-container
+background.solid: $inherited.colors.background.step-1
+align-content: center
+height.fixed.percent: 100
+min-height.fixed.px: 400
+anchor if { $show-full-screen }: window
+left.px: 0
+top.px: 0
+z-index: 1
+$on-global-key[esc]$: $ftd.set-bool($a = $show-full-screen, v = false)
+
+-- ftd.column:
+children: $presentation.wrap
+width: fill-container
+z-index: 0
+height: fill-container
+
+-- end: ftd.column
+
+-- ftd.row:
+width: fill-container
+background.solid: $inherited.colors.background.step-2
+align-content: center
+padding-vertical.px: 12
+
+-- ftd.column:
+width: fill-container
+align-content: center
+
+-- ftd.row:
+
+-- ftd.image:
+if: { presentation.current-slide != presentation.min }
+src: $assets.files.assets.left.svg
+src if { presentation.mouse-in-left }: $assets.files.assets.left-active.svg
+$on-click$: $decrement-and-clamp($a = $presentation.current-slide, by = 1, min = $presentation.min, max = $presentation.max)
+align-self: center
+width.fixed.px: 24
+height.fixed.px: 24
+$on-mouse-enter$: $ftd.set-bool($a = $presentation.mouse-in-left, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $presentation.mouse-in-left, v = false)
+
+-- ftd.image:
+if: { presentation.current-slide == presentation.min }
+src: $assets.files.assets.left.svg
+align-self: center
+width.fixed.px: 24
+height.fixed.px: 24
+
+-- ftd.integer: $presentation.current-slide
+color: $inherited.colors.text-strong
+role: $inherited.types.button-small
+style: medium
+padding-horizontal.px: 16 
+
+-- ftd.image:
+if: { presentation.current-slide != presentation.max }
+src: $assets.files.assets.right.svg
+src if { presentation.mouse-in-right }: $assets.files.assets.right-active.svg
+$on-click$: $increment-and-clamp($a = $presentation.current-slide, by = 1, min = $presentation.min, max = $presentation.max)
+align-self: center
+border-radius.px: 100
+width.fixed.px: 24
+height.fixed.px: 24
+$on-mouse-enter$: $ftd.set-bool($a = $presentation.mouse-in-right, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $presentation.mouse-in-right, v = false)
+
+-- ftd.image:
+if: { presentation.current-slide == presentation.max }
+src: $assets.files.assets.right.svg
+align-self: center
+border-radius.px: 100
+width.fixed.px: 24
+height.fixed.px: 24
+
+-- end: ftd.row
+
+-- end: ftd.column
+
+-- ftd.column:
+
+-- ftd.image:
+src: $assets.files.assets.full-screen.svg
+src if { presentation.mouse-in-full } : $assets.files.assets.full-screen-active.svg
+$on-click$: $ftd.set-bool($a = $show-full-screen, v = true)
+$on-mouse-enter$: $ftd.set-bool($a = $presentation.mouse-in-full, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $presentation.mouse-in-full, v = false)
+cursor: pointer
+
+-- end: ftd.column
+
+-- end: ftd.row
+
+-- end: ftd.column
+
+-- end: ftd.mobile
+
+-- end: ftd.column
+
+-- end: presentation
 
 
 
@@ -155,19 +402,20 @@ if: { title-slide.index == title-slide.reset }
 background.image if { title-slide.bg-img != NULL }: $title-slide.bg-img
 width: fill-container
 height: fill-container
-min-height.fixed.px: 400
+min-height.fixed.px if { !show-full-screen }: 400
 align-content: center
 $on-click$: $increment-and-clamp($a = $title-slide.current-slide, by = 1, min = $title-slide.min, max = $title-slide.max)
 $on-mouse-enter$: $ftd.set-bool($a = $title-slide.mouse-in-right, v = true)
 $on-mouse-leave$: $ftd.set-bool($a = $title-slide.mouse-in-right, v = false)
 spacing.fixed.px: 24
 padding.px: 48
+padding.px if { ftd.device == "mobile" }: 24
 
 -- ftd.text: $title-slide.title
 color: $inherited.colors.text-strong
 role: $inherited.types.heading-hero
 text-align: center
-style: semi-bold
+style: bold
 
 -- ftd.text: $title-slide.subtitle
 if: { title-slide.subtitle != NULL }
@@ -210,6 +458,11 @@ boolean $mouse-in-right: false
 optional ftd.background-image bg-img:
 
 -- ftd.column:
+width: fill-container
+
+-- ftd.desktop:
+
+-- ftd.column:
 if: { title-and-body.index == title-and-body.reset }
 background.image if { title-and-body.bg-img != NULL }: $title-and-body.bg-img
 width: fill-container
@@ -224,7 +477,7 @@ padding.px: 48
 -- ftd.text: $title-and-body.title
 color: $inherited.colors.text-strong
 role: $inherited.types.heading-hero
-style: semi-bold
+style: bold
 
 -- ftd.text:
 if: { title-and-body.body != NULL }
@@ -233,6 +486,42 @@ role: $inherited.types.copy-large
 style: medium
 
 $title-and-body.body
+
+-- end: ftd.column
+
+-- end: ftd.desktop
+
+-- ftd.mobile:
+
+-- ftd.column:
+if: { title-and-body.index == title-and-body.reset }
+background.image if { title-and-body.bg-img != NULL }: $title-and-body.bg-img
+width: fill-container
+height: fill-container
+max-height.fixed.px if { !$show-full-screen }: 400
+$on-click$: $increment-and-clamp($a = $title-and-body.current-slide, by = 1, min = $title-and-body.min, max = $title-and-body.max)
+$on-mouse-enter$: $ftd.set-bool($a = $title-and-body.mouse-in-right, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $title-and-body.mouse-in-right, v = false)
+spacing.fixed.px: 32
+padding.px if { ftd.device == "mobile" }: 24
+
+-- ftd.text: $title-and-body.title
+color: $inherited.colors.text-strong
+role: $inherited.types.heading-large
+style: bold
+text-align: center
+
+-- ftd.text:
+if: { title-and-body.body != NULL }
+color: $inherited.colors.text-strong
+role: $inherited.types.copy-large
+style: medium
+
+$title-and-body.body
+
+-- end: ftd.column
+
+-- end: ftd.mobile
 
 -- end: ftd.column
 
@@ -262,11 +551,16 @@ boolean $mouse-in-right: false
 optional ftd.background-image bg-img:
 
 -- ftd.column:
+width: fill-container
+
+-- ftd.desktop:
+
+-- ftd.column:
 if: { title-and-2-columns.index == title-and-2-columns.reset }
 background.image if { title-and-2-columns.bg-img != NULL }: $title-and-2-columns.bg-img
 width: fill-container
 height: fill-container
-min-height.fixed.px: 400
+max-height.fixed.px if { !$show-full-screen }: 400
 $on-click$: $increment-and-clamp($a = $title-and-2-columns.current-slide, by = 1, min = $title-and-2-columns.min, max = $title-and-2-columns.max)
 $on-mouse-enter$: $ftd.set-bool($a = $title-and-2-columns.mouse-in-right, v = true)
 $on-mouse-leave$: $ftd.set-bool($a = $title-and-2-columns.mouse-in-right, v = false)
@@ -276,7 +570,7 @@ spacing.fixed.px: 32
 -- ftd.text: $title-and-2-columns.title
 color: $inherited.colors.text-strong
 role: $inherited.types.heading-hero
-style: semi-bold
+style: bold
 
 -- ftd.row:
 if: { !title-and-2-columns.left-body }
@@ -289,6 +583,8 @@ width.fixed.percent: 50
 -- ftd.image:
 src: $title-and-2-columns.image
 width: fill-container
+width.fixed.px if { !$show-full-screen }: 580
+height.fixed.px if { !$show-full-screen }: 250
 
 -- end: ftd.column
 
@@ -333,10 +629,77 @@ width.fixed.percent: 50
 -- ftd.image:
 src: $title-and-2-columns.image
 width: fill-container
+width.fixed.px if { !$show-full-screen }: 580
+height.fixed.px if { !$show-full-screen }: 250
 
 -- end: ftd.column
 
 -- end: ftd.row
+
+-- end: ftd.column
+
+-- end: ftd.desktop
+
+-- ftd.mobile:
+
+-- ftd.column:
+if: { title-and-2-columns.index == title-and-2-columns.reset }
+background.image if { title-and-2-columns.bg-img != NULL }: $title-and-2-columns.bg-img
+width: fill-container
+height: fill-container
+max-height.fixed.px if { !$show-full-screen }: 400
+$on-click$: $increment-and-clamp($a = $title-and-2-columns.current-slide, by = 1, min = $title-and-2-columns.min, max = $title-and-2-columns.max)
+$on-mouse-enter$: $ftd.set-bool($a = $title-and-2-columns.mouse-in-right, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $title-and-2-columns.mouse-in-right, v = false)
+padding.px: 24
+spacing.fixed.px: 24
+
+-- ftd.text: $title-and-2-columns.title
+color: $inherited.colors.text-strong
+role: $inherited.types.heading-large
+style: bold
+
+-- ftd.column:
+if: { !title-and-2-columns.left-body || $show-full-screen }
+width: fill-container
+spacing.fixed.px: 24
+
+-- ftd.image:
+src: $title-and-2-columns.image
+width: fill-container
+
+-- ftd.text: 
+if: { title-and-2-columns.body != NULL }
+color: $inherited.colors.text-strong
+role: $inherited.types.copy-regular
+style: medium
+
+$title-and-2-columns.body
+
+-- end: ftd.column
+
+-- ftd.column:
+if: { title-and-2-columns.left-body }
+width: fill-container
+spacing.fixed.px: 24
+
+-- ftd.text: 
+if: { title-and-2-columns.body != NULL }
+color: $inherited.colors.text-strong
+role: $inherited.types.copy-small
+style: medium
+
+$title-and-2-columns.body
+
+-- ftd.image:
+src: $title-and-2-columns.image
+width: fill-container
+
+-- end: ftd.column
+
+-- end: ftd.column
+
+-- end: ftd.mobile
 
 -- end: ftd.column
 
@@ -364,6 +727,11 @@ integer min: 1
 boolean $mouse-in-right: false
 optional ftd.background-image bg-img:
 
+-- ftd.column:
+width: fill-container
+
+-- ftd.desktop:
+
 -- ftd.row:
 if: { section-title-and-description.index == section-title-and-description.reset }
 background.image if { section-title-and-description.bg-img != NULL }: $section-title-and-description.bg-img
@@ -385,7 +753,7 @@ align-content: center
 -- ftd.text: $section-title-and-description.title
 color: $inherited.colors.text-strong
 role: $inherited.types.heading-hero
-style: semi-bold
+style: bold
 
 -- ftd.text: $section-title-and-description.subtitle
 color: $inherited.colors.text-strong
@@ -401,6 +769,45 @@ role: $inherited.types.copy-large
 $section-title-and-description.body
 
 -- end: ftd.row
+
+-- end: ftd.desktop
+
+-- ftd.mobile:
+
+-- ftd.column:
+if: { section-title-and-description.index == section-title-and-description.reset }
+background.image if { section-title-and-description.bg-img != NULL }: $section-title-and-description.bg-img
+width: fill-container
+height: fill-container
+min-height.fixed.px: 400
+align-content: center
+$on-click$: $increment-and-clamp($a = $section-title-and-description.current-slide, by = 1, min = $section-title-and-description.min, max = $section-title-and-description.max)
+$on-mouse-enter$: $ftd.set-bool($a = $section-title-and-description.mouse-in-right, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $section-title-and-description.mouse-in-right, v = false)
+spacing.fixed.px: 24
+padding.px: 24
+
+-- ftd.text: $section-title-and-description.title
+color: $inherited.colors.text-strong
+role: $inherited.types.heading-large
+style: bold
+
+-- ftd.text: $section-title-and-description.subtitle
+color: $inherited.colors.text-strong
+role: $inherited.types.heading-medium
+style: medium
+
+-- ftd.text:
+color: $inherited.colors.text-strong
+role: $inherited.types.copy-regular
+
+$section-title-and-description.body
+
+-- end: ftd.column
+
+-- end: ftd.mobile
+
+-- end: ftd.column
 
 -- end: section-title-and-description
 
@@ -427,6 +834,11 @@ integer min: 1
 boolean $mouse-in-right: false
 optional ftd.background-image bg-img:
 
+-- ftd.column:
+width: fill-container
+
+-- ftd.desktop:
+
 -- ftd.row:
 if: { image-title-body.index == image-title-body.reset }
 background.image if { image-title-body.bg-img != NULL }: $image-title-body.bg-img
@@ -437,6 +849,7 @@ $on-click$: $increment-and-clamp($a = $image-title-body.current-slide, by = 1, m
 $on-mouse-enter$: $ftd.set-bool($a = $image-title-body.mouse-in-right, v = true)
 $on-mouse-leave$: $ftd.set-bool($a = $image-title-body.mouse-in-right, v = false)
 padding.px: 48
+padding.px if { !$show-full-screen }: 32
 spacing.fixed.px: 48
 
 -- ftd.column:
@@ -446,12 +859,15 @@ spacing.fixed.px: 24
 -- ftd.text: $image-title-body.title
 if: { image-title-body.title != NULL }
 role: $inherited.types.heading-hero
+role if { !$show-full-screen }: $inherited.types.heading-large
 color: $inherited.colors.text-strong
 
 -- ftd.image:
 src: $image-title-body.image
 width: fill-container
 height.fixed.px: 450
+width.fixed.px if { !$show-full-screen }: 580
+height.fixed.px if { !$show-full-screen }: 250
 fit: contain
 
 -- end: ftd.column
@@ -477,6 +893,50 @@ $image-title-body.body
 
 -- end: ftd.row
 
+-- end: ftd.desktop
+
+-- ftd.mobile:
+
+-- ftd.column:
+if: { image-title-body.index == image-title-body.reset }
+background.image if { image-title-body.bg-img != NULL }: $image-title-body.bg-img
+width: fill-container
+height: fill-container
+min-height.fixed.px: 400
+$on-click$: $increment-and-clamp($a = $image-title-body.current-slide, by = 1, min = $image-title-body.min, max = $image-title-body.max)
+$on-mouse-enter$: $ftd.set-bool($a = $image-title-body.mouse-in-right, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $image-title-body.mouse-in-right, v = false)
+padding.px: 24
+spacing.fixed.px: 24
+
+-- ftd.text: $image-title-body.title
+if: { image-title-body.title != NULL }
+role: $inherited.types.heading-large
+color: $inherited.colors.text-strong
+
+-- ftd.image:
+src: $image-title-body.image
+width: fill-container
+fit: contain
+
+-- ftd.text: $image-title-body.subtitle
+if: { image-title-body.subtitle != NULL }
+role: $inherited.types.heading-medium
+color: $inherited.colors.text-strong
+
+-- ftd.text:
+if: { image-title-body.body != NULL }
+role: $inherited.types.copy-regular
+color: $inherited.colors.text-strong
+
+$image-title-body.body
+
+-- end: ftd.column
+
+-- end: ftd.mobile
+
+-- end: ftd.column
+
 -- end: image-title-body
 
 
@@ -500,6 +960,10 @@ integer min: 1
 boolean $mouse-in-right: false
 optional ftd.background-image bg-img:
 
+-- ftd.column:
+width: fill-container
+
+-- ftd.desktop:
 
 -- ftd.column:
 if: { title-with-image.index == title-with-image.reset }
@@ -512,6 +976,7 @@ $on-click$: $increment-and-clamp($a = $title-with-image.current-slide, by = 1, m
 $on-mouse-enter$: $ftd.set-bool($a = $title-with-image.mouse-in-right, v = true)
 $on-mouse-leave$: $ftd.set-bool($a = $title-with-image.mouse-in-right, v = false)
 padding.px: 48
+padding.px if { !$show-full-screen }: 32
 spacing.fixed.px: 24
 
 -- ftd.text: $title-with-image.title
@@ -523,6 +988,40 @@ color: $inherited.colors.text-strong
 src: $title-with-image.image
 height.fixed.px: 450
 width.fixed.px: 850
+width.fixed.px if { !$show-full-screen }: 580
+height.fixed.px if { !$show-full-screen }: 250
+
+-- end: ftd.column
+
+-- end: ftd.desktop
+
+-- ftd.mobile:
+
+-- ftd.column:
+if: { title-with-image.index == title-with-image.reset }
+background.image if { title-with-image.bg-img != NULL }: $title-with-image.bg-img
+width: fill-container
+height: fill-container
+min-height.fixed.px: 400
+align-content: center
+$on-click$: $increment-and-clamp($a = $title-with-image.current-slide, by = 1, min = $title-with-image.min, max = $title-with-image.max)
+$on-mouse-enter$: $ftd.set-bool($a = $title-with-image.mouse-in-right, v = true)
+$on-mouse-leave$: $ftd.set-bool($a = $title-with-image.mouse-in-right, v = false)
+padding.px: 24
+spacing.fixed.px: 24
+
+-- ftd.text: $title-with-image.title
+if: { title-with-image.title != NULL }
+role: $inherited.types.heading-large
+color: $inherited.colors.text-strong
+
+-- ftd.image:
+src: $title-with-image.image
+width: fill-container
+
+-- end: ftd.column
+
+-- end: ftd.mobile
 
 -- end: ftd.column
 
